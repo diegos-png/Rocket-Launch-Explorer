@@ -48,7 +48,9 @@ function populateDropdown(launches) {
 // - Call getLaunchDetails(launchId, callback)
 document.getElementById("launchDropdown").addEventListener("change", function () {
   // TODO: Get selected launchId
+  const launchId = document.getElementById("launchDropdown").value
   // TODO: Call getLaunchDetails
+  getLaunchDetails(launchId, displayLaunchInfo)
 });
 
 // Step 4: Create getLaunchDetails(launchId, callback)
@@ -56,6 +58,7 @@ document.getElementById("launchDropdown").addEventListener("change", function ()
 // - Parses the response and passes the launch object to the callback
 function getLaunchDetails(launchId, callback) {
   // TODO: Implement XHR GET request for a single launch
+  console.log(launchId)
 }
 
 // Step 5: Create displayLaunchInfo(launch)
