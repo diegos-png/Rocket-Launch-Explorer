@@ -25,15 +25,18 @@ function getUpcomingLaunches(callback) {
   //   }
   // }
   // xhr.send()
+
   const url = BASE_URL + "/launches/upcoming/"
+  const loadingMessage = document.getElementById("status")
+  loadingMessage.textContent = "Loading..."
   axios.get(url)
     .then((res) => {
+      document.getElementById("status").innerHTML = ""
       populateDropdown(res.data)
     })
     .catch(error => {
       console.error('Request problem:', error)
     })
-
 
 }
 
@@ -47,7 +50,6 @@ function populateDropdown(launches) {
     const fillLaunches = document.createElement("option")
     fillLaunches.textContent = launches.results[i].name
     fillLaunches.value = launches.results[i].id
-
     document.getElementById("launchDropdown").appendChild(fillLaunches)
   }
 }
@@ -56,6 +58,7 @@ function populateDropdown(launches) {
 // - On change, get the selected launch ID
 // - Call getLaunchDetails(launchId, callback)
 document.getElementById("launchDropdown").addEventListener("change", function () {
+
   // TODO: Get selected launchId
   const launchId = document.getElementById("launchDropdown").value
   // TODO: Call getLaunchDetails
@@ -76,15 +79,19 @@ function getLaunchDetails(launchId, callback) {
   //   }
   // }
   // xhr.send()
-
   const url = BASE_URL + "/launches/" + launchId + "/"
+  const loadingMessage = document.getElementById("status")
+  loadingMessage.textContent = "Loading..."
   axios.get(url)
     .then((res) => {
+      document.getElementById("status").innerHTML = ""
       displayLaunchInfo(res.data)
+
     })
     .catch(error => {
       console.error('Request problem:', error)
     })
+
 }
 
 // Step 5: Create displayLaunchInfo(launch)
@@ -95,6 +102,7 @@ function displayLaunchInfo(launch) {
   // TODO: Display mission name and description
   // TODO: Display the rocket image
   // console.log(launch)
+
   const mission = document.getElementById("missionDetails")
   const rocket = document.getElementById("rocket")
   mission.innerHTML = ""
@@ -114,7 +122,6 @@ function displayLaunchInfo(launch) {
     rocket.appendChild(rocketImg)
   }
   else {
-    rocket.textContent = "No image available"
   }
 }
 
