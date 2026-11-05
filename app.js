@@ -18,7 +18,7 @@ function getUpcomingLaunches(callback) {
   const xhr = new XMLHttpRequest()
   xhr.open("GET", BASE_URL + "/launches/upcoming/")
 
-  xhr.onreadystatechange   = function () {
+  xhr.onreadystatechange = function () {
     if (xhr.readyState === 4 && xhr.status == 200) {
       const data = JSON.parse(xhr.responseText)
       callback(data)
@@ -33,7 +33,14 @@ function getUpcomingLaunches(callback) {
 // - Adds one <option> per launch: text = launch name, value = launch id
 function populateDropdown(launches) {
   // TODO: Iterate and append <option> elements
-  console.log(launches)
+  // console.log(launches)p
+  for (let i = 0; i < launches.results.length; i++) {
+    const fillLaunches = document.createElement("option")
+    fillLaunches.textContent = launches.results[i].name
+    fillLaunches.value = launches.results[i].id
+
+    document.getElementById("launchDropdown").appendChild(fillLaunches)
+  }
 }
 
 // Step 3: Add event listener to #launchDropdown
