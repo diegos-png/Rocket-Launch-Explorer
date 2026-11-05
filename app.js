@@ -15,16 +15,25 @@ const BASE_URL = "https://lldev.thespacedevs.com/2.3.0";
 // - Calls the callback function and passes the results array
 function getUpcomingLaunches(callback) {
   // TODO: Implement XHR GET request
-  const xhr = new XMLHttpRequest()
-  xhr.open("GET", BASE_URL + "/launches/upcoming/")
+  // const xhr = new XMLHttpRequest()
+  // xhr.open("GET", BASE_URL + "/launches/upcoming/")
 
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4 && xhr.status == 200) {
-      const data = JSON.parse(xhr.responseText)
-      callback(data)
-    }
-  }
-  xhr.send()
+  // xhr.onreadystatechange = function () {
+  //   if (xhr.readyState === 4 && xhr.status == 200) {
+  //     const data = JSON.parse(xhr.responseText)
+  //     callback(data)
+  //   }
+  // }
+  // xhr.send()
+  const url = BASE_URL + "/launches/upcoming/"
+  axios.get(url)
+    .then((res) => {
+      populateDropdown(res.data)
+    })
+    .catch(error => {
+      console.error('Request problem:', error)
+    })
+
 
 }
 
@@ -58,15 +67,24 @@ document.getElementById("launchDropdown").addEventListener("change", function ()
 // - Parses the response and passes the launch object to the callback
 function getLaunchDetails(launchId, callback) {
   // TODO: Implement XHR GET request for a single launch
-  const xhr = new XMLHttpRequest();
-  xhr.open("GET", BASE_URL + "/launches/" + launchId + "/")
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4 && xhr.status == 200){
-      const data = JSON.parse(xhr.responseText)
-      callback(data)
-    }
-  }
-  xhr.send()
+  // const xhr = new XMLHttpRequest();
+  // xhr.open("GET", BASE_URL + "/launches/" + launchId + "/")
+  // xhr.onreadystatechange = function () {
+  //   if (xhr.readyState === 4 && xhr.status == 200) {
+  //     const data = JSON.parse(xhr.responseText)
+  //     callback(data)
+  //   }
+  // }
+  // xhr.send()
+
+  const url = BASE_URL + "/launches/" + launchId + "/"
+  axios.get(url)
+    .then((res) => {
+      displayLaunchInfo(res.data)
+    })
+    .catch(error => {
+      console.error('Request problem:', error)
+    })
 }
 
 // Step 5: Create displayLaunchInfo(launch)
@@ -76,20 +94,20 @@ function getLaunchDetails(launchId, callback) {
 function displayLaunchInfo(launch) {
   // TODO: Display mission name and description
   // TODO: Display the rocket image
-  console.log(launch)
+  // console.log(launch)
   const mission = document.getElementById("missionDetails")
   const rocket = document.getElementById("rocket")
   mission.innerHTML = ""
   rocket.innerHTML = ""
-  
-  if(launch.mission && launch.mission.description){
+
+  if (launch.mission && launch.mission.description) {
     mission.textContent = "Mission: " + launch.name + " - Mission details: " + launch.mission.description
   }
   else {
     mission.textContent = "Mission: " + launch.name + " - No details available"
   }
 
-  if(launch.rocket.configuration.image.image_url){
+  if (launch.rocket.configuration.image.image_url) {
     const rocketImg = document.createElement("img")
     rocketImg.src = launch.rocket.configuration.image.image_url
     rocketImg.alt = launch.rocket.configuration.image.name
